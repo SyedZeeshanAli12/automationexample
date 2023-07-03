@@ -23,6 +23,5 @@ describe('Add to Cart and Delete from Cart Test', () => {
         cy.wait(2000)
         cart.DeleteFromCart()
         cy.wait(2000) 
-        cy.wait(2000)       
     })
 })
