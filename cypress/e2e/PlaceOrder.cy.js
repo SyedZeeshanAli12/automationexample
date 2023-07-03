@@ -1,0 +1,52 @@
+import { Cart} from "../POM/Cart";
+import { Payment } from "../POM/PaymentMethod";
+
+const cart = new Cart()
+const payment = new Payment()
+
+describe('Add to cart test', () => {
+    beforeEach(()=>{
+      cy.login('johnnybravo@gmail.com', 'johnny123456')
+    })
+    it('cart page' ,()=>{
+        cy.loginSession;
+        cart.SearchForProducts()
+        cy.wait(2000)
+        cart.ViewAnotherProduct()
+        cy.wait(2000)
+        cart.Quantity('3')
+        cy.wait(2000)
+        cart.ReviewerName('johnny Bravo')
+        cy.wait(2000)
+        cart.ReviewerEmail('johhnybravo@gmail.com')
+        cy.wait(2000)
+        cart.WriteReview('Very Nice Product. Going to buy it again! hoooo haaaa hoooo')
+        cy.wait(2000)
+        cart.SubmitReview()
+        cy.wait(2000)
+        cart.AddToCart()
+        cy.wait(2000)
+        cart.ViewCart()
+        cy.wait(2000)
+        cart.ProceedToCheckout()
+        cy.wait(2000)
+        cart.CommentAboutOrder('Please send this order in good packing and mentioned size')
+        cy.wait(2000)
+        cart.PlaceOrder()
+        cy.wait(2000) 
+        payment.NameOnCard('JohnnyBravo')
+        cy.wait(2000)
+        payment.CardNumber('4200-0000-2139-9983')
+        cy.wait(2000)
+        payment.CVC('300')
+        cy.wait(2000)
+        payment.ExpirationMonth('03')
+        cy.wait(2000)
+        payment.ExpirationYear('2025')
+        cy.wait(2000)
+        payment.PayAndConfirmOrder()
+        cy.wait(2000)
+        payment.Continue()        
+    })
+})
+
