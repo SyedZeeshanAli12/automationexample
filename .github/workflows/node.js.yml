@@ -1,30 +1,33 @@
-name: End-to-end tests
-on: [push]
+name: Cypress E2E Tests and Deployment
+
+on:
+  push:
+    branches:
+      - main  # Update this to your main branch name
+
 jobs:
-  cypress-run:
-    runs-on: ubuntu-22.04
+  test-and-deploy:
+    runs-on: ubuntu-latest  # Use the desired operating system
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      # https://github.com/cypress-io/github-action
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-      # after the test run completes
-      # store videos and any screenshots
-      # NOTE: screenshots will be generated only if E2E test failed
-      # thus we store screenshots only on failures
-      # Alternative: create and commit an empty cypress/screenshots folder
-      # to always have something to upload
-      - uses: actions/upload-artifact@v3
-        if: failure()
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      # Test run video was always captured, so this action uses "always()" condition
-      - uses: actions/upload-artifact@v3
-        if: always()
+          node-version: 14  # Specify the Node.js version you need
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests and generate report
+        run: npx cypress run --record --parallel
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          name: cypress-videos
-          path: cypress/videos
+          branch: gh-pages  # Specify the branch for deployment
+          folder: cypress/screenshots  # Specify the folder with the Cypress screenshots
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GITHUB_TOKEN secret to authenticate
+
