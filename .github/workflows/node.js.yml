@@ -1,29 +1,25 @@
-name: E2E Tests
+name: Cypress E2E Tests
 
 on:
   push:
     branches:
-      - main  # Adjust branch name as needed
+      - main  # Update this to your main branch name
 
 jobs:
-  e2e-tests:
-    name: Run E2E Tests
-    runs-on: ubuntu-latest  # Choose the appropriate runner environment
+  test:
+    runs-on: ubuntu-latest  # Use the desired operating system
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14  # Choose the desired Node.js version
+          node-version: 14  # Specify the Node.js version you need
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
-      - name: Run E2E tests
-        run: npm run test:e2e  # Adjust the command as per your project's setup
-
-      - name: Generate test report
-        run: npm run generate-report  # Adjust the command to generate the report
+      - name: Run Cypress tests
+        run: npx cypress run
