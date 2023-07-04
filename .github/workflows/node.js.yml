@@ -22,7 +22,8 @@ jobs:
         run: npm i
 
       - name: Run Cypress tests and generate report
-        run: npx cypress run --record --parallel
+        run: npx cypress run --record --key 40
+
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.1
