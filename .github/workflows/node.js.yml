@@ -1,33 +1,29 @@
-name: Cypress E2E Tests and Deployment
+name: E2E Tests
 
 on:
   push:
     branches:
-      - main  # Update this to your main branch name
+      - main  # Adjust branch name as needed
 
 jobs:
-  test-and-deploy:
-    runs-on: ubuntu-latest  # Use the desired operating system
+  e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest  # Choose the appropriate runner environment
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14  # Specify the Node.js version you need
-          
-      - name: clear cache
-        run:  npm cache clean --force
-        
+          node-version: 14  # Choose the desired Node.js version
+
       - name: Install dependencies
         run: npm i
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
-        with:
-          branch: gh-pages  # Specify the branch for deployment
-          folder: cypress/screenshots  # Specify the folder with the Cypress screenshots
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GITHUB_TOKEN secret to authenticate
+      - name: Run E2E tests
+        run: npm run test:e2e  # Adjust the command as per your project's setup
 
+      - name: Generate test report
+        run: npm run generate-report  # Adjust the command to generate the report
