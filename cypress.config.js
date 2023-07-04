@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    projectId: '4',
+    projectId: '40',
     testIsolation: false,
     "chromeWebSecurity": false,
     "exprimentalSessionSupport": true,
