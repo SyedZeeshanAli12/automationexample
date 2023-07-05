@@ -1,28 +1,29 @@
-name: Cypress E2E Tests
+name: Cypress Tests and Report
 
 on:
   push:
     branches:
-      - main  # Update this to your main branch name
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest  # Use the desired operating system
+  cypress:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14  # Specify the Node.js version you need
-
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
-      - name: Run Cypress tests
-        run: npx cypress run
-
-      - name: Generate test report
+      - name: Run Cypress tests and generate report
         run: npm run generate-report
+
+      - name: Publish HTML report
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cypress Report
+          path: cypress/videos # Adjust the path if needed
